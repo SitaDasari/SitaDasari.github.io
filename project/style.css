@@ -36,6 +36,7 @@
     justify-content: center;
     align-items: center;
     color: white;
+    animation-delay: 2.5s;
 }
 
 .hello{
@@ -107,3 +108,15 @@ input{
     padding-left: 10px;
 }
 
+.anim{
+    opacity: 0;
+    transform: translateY(30px);
+    animation: moveup 0.5s linear forwards;
+}
+
+@keyframes moveup{
+    100%{
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
