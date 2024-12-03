@@ -1,49 +1,46 @@
-//step 1: get DOM
-let nextDom = document.getElementById('next');
-let prevDom = document.getElementById('prev');
+const taskInput = document.getElementById("task-input");
+const addTaskBtn = document.getElementById("add-task-btn");
+const taskList = document.getElementById("task-list");
 
-let carouselDom = document.querySelector('.carousel');
-let SliderDom = carouselDom.querySelector('.carousel .list');
-let thumbnailBorderDom = document.querySelector('.carousel .thumbnail');
-let thumbnailItemsDom = thumbnailBorderDom.querySelectorAll('.item');
-let timeDom = document.querySelector('.carousel .time');
+// Add task function
+function addTask() {
+    const taskText = taskInput.value.trim();
 
-thumbnailBorderDom.appendChild(thumbnailItemsDom[0]);
-let timeRunning = 3000;
-let timeAutoNext = 7000;
-
-nextDom.onclick = function(){
-    showSlider('next');    
-}
-
-prevDom.onclick = function(){
-    showSlider('prev');    
-}
-let runTimeOut;
-let runNextAuto = setTimeout(() => {
-    next.click();
-}, timeAutoNext)
-function showSlider(type){
-    let  SliderItemsDom = SliderDom.querySelectorAll('.carousel .list .item');
-    let thumbnailItemsDom = document.querySelectorAll('.carousel .thumbnail .item');
-    
-    if(type === 'next'){
-        SliderDom.appendChild(SliderItemsDom[0]);
-        thumbnailBorderDom.appendChild(thumbnailItemsDom[0]);
-        carouselDom.classList.add('next');
-    }else{
-        SliderDom.prepend(SliderItemsDom[SliderItemsDom.length - 1]);
-        thumbnailBorderDom.prepend(thumbnailItemsDom[thumbnailItemsDom.length - 1]);
-        carouselDom.classList.add('prev');
+    if (taskText === "") {
+        alert("Please enter a task!");
+        return;
     }
-    clearTimeout(runTimeOut);
-    runTimeOut = setTimeout(() => {
-        carouselDom.classList.remove('next');
-        carouselDom.classList.remove('prev');
-    }, timeRunning);
 
-    clearTimeout(runNextAuto);
-    runNextAuto = setTimeout(() => {
-        next.click();
-    }, timeAutoNext)
+    const taskItem = document.createElement("li");
+    taskItem.className = "task-item";
+
+    taskItem.innerHTML = `
+        <span>${taskText}</span>
+        <div class="task-buttons">
+            <button class="complete-btn">Complete</button>
+            <button class="delete-btn">Delete</button>
+        </div>
+    `;
+
+    // Add event listeners to buttons
+    taskItem.querySelector(".complete-btn").addEventListener("click", () => {
+        taskItem.classList.toggle("completed");
+    });
+
+    taskItem.querySelector(".delete-btn").addEventListener("click", () => {
+        taskItem.remove();
+    });
+
+    taskList.appendChild(taskItem);
+    taskInput.value = "";
 }
+
+// Add event listener to "Add Task" button
+addTaskBtn.addEventListener("click", addTask);
+
+// Add task on pressing Enter key
+taskInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        addTask();
+    }
+});
