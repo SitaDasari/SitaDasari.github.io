@@ -40,4 +40,3 @@ dots.forEach((dot, index) => {
         dots[currentSlide].classList.add('active');
     });
 });
-
